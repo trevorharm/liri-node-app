@@ -43,8 +43,8 @@ function twit() {
     var params = { screen_name: 'therealtharm1' };
     client.get('statuses/user_timeline', params, function (error, tweets, response) {
         if (!error) {
-            for (var i = 0; i < tweets.length; i++) {
-                //console.log(response); // Show the full response in the terminal
+            console.log(tweets);
+            for (var i = 0; i < 1; i++) {
                 var twitterResults =
                     "@" + tweets[i].user.screen_name + ": " +
                     tweets[i].text + "\r\n" +
@@ -58,8 +58,7 @@ function twit() {
 
         }
     });
-};
-
+}
 // Spotify-This-Song Function
 function spot(songInput) {
     var songInput = process.argv[3];
@@ -93,13 +92,12 @@ function movie() {
     if (movieInput == null) {
         movieInput = "mr nobody";
     }
-    request("http://www.omdbapi.com/?t=" + movieInput + "&y=&plot=short&r=json&tomatoes=true", function (error, response, body) {
+    request("https://www.omdbapi.com/?t=" + movieInput + "&y=&plot=short&apikey=trilogy", function (error, response, body) {
         if (!error && response.statusCode == 200) {
             var movieObject = JSON.parse(body);
             //console.log(movieObject); // Show the text in the terminal
             var movieResults =
-                "------------------------------ begin ------------------------------" + "\r\n"
-            "Title: " + movieObject.Title + "\r\n" +
+                "Title: " + movieObject.Title + "\r\n" +
                 "Year: " + movieObject.Year + "\r\n" +
                 "Imdb Rating: " + movieObject.imdbRating + "\r\n" +
                 "Rotten Tomatoes Rating: " + movieObject.tomatoRating + "\r\n" +
@@ -107,9 +105,7 @@ function movie() {
                 "Language: " + movieObject.Language + "\r\n" +
                 "Plot: " + movieObject.Plot + "\r\n" +
                 "Actors: " + movieObject.Actors + "\r\n" +
-
-                "------------------------------ fin ------------------------------" + "\r\n";
-            console.log(movieResults);
+                console.log(movieResults);
         } else {
             console.log("Error :" + error);
             return;
