@@ -94,17 +94,17 @@ function movie() {
     }
     request("https://www.omdbapi.com/?t=" + movieInput + "&y=&plot=short&apikey=trilogy", function (error, response, body) {
         if (!error && response.statusCode == 200) {
-            var movieObject = JSON.parse(body);
+            // var movieObject = JSON.parse(body);
             //console.log(movieObject); // Show the text in the terminal
             var movieResults =
-                "Title: " + movieObject.Title + "\r\n" +
-                "Year: " + movieObject.Year + "\r\n" +
-                "Imdb Rating: " + movieObject.imdbRating + "\r\n" +
-                "Rotten Tomatoes Rating: " + movieObject.tomatoRating + "\r\n" +
-                "Country: " + movieObject.Country + "\r\n" +
-                "Language: " + movieObject.Language + "\r\n" +
-                "Plot: " + movieObject.Plot + "\r\n" +
-                "Actors: " + movieObject.Actors + "\r\n" +
+                "Title: " + JSON.parse(body).Title + "\r\n" +
+                "Year: " + JSON.parse(body).Year + "\r\n" +
+                "Imdb Rating: " + JSON.parse(body).imdbRating + "\r\n" +
+                "Rotten Tomatoes Rating: " + JSON.parse(body).tomatoRating + "\r\n" +
+                "Country: " + JSON.parse(body).Country + "\r\n" +
+                "Language: " + JSON.parse(body).Language + "\r\n" +
+                "Plot: " + JSON.parse(body).Plot + "\r\n" +
+                "Actors: " + JSON.parse(body).Actors + "\r\n" +
                 console.log(movieResults);
         } else {
             console.log("Error :" + error);
