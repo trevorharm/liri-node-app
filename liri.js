@@ -104,7 +104,7 @@ function movie() {
                 "Country: " + JSON.parse(body).Country + "\r\n" +
                 "Language: " + JSON.parse(body).Language + "\r\n" +
                 "Plot: " + JSON.parse(body).Plot + "\r\n" +
-                "Actors: " + JSON.parse(body).Actors + "\r\n" +
+                "Actors: " + JSON.parse(body).Actors + "\r\n";
                 console.log(movieResults);
         } else {
             console.log("Error :" + error);
