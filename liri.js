@@ -10,7 +10,7 @@ var fs = require("fs");
 var spotify = new Spotify(keys.spotify);
 var client = new Twitter(keys.twitter);
 var nodeOperation = process.argv[2];
-
+// var songInput = process.argv[3];
 
 // Node Command Parsing Switch Statements
 switch (nodeOperation) {
@@ -30,11 +30,11 @@ switch (nodeOperation) {
         doit();
         break;
     // Give the end user instructions on how to use Liri
-    default: console.log("\r\n" + "Try typing one of the following commands after 'node liri.js' : " + "\r\n" +
-        "1. my-tweets 'any twitter name' " + "\r\n" +
-        "2. spotify-this-song 'any song name' " + "\r\n" +
+    default: console.log("\r\n" + "Below are the Liri Commands' : " + "\r\n" +
+        "1. spotify-this-song 'any song name' " + "\r\n" +
+        "2. my-tweets " + "\r\n" +
         "3. movie-this 'any movie name' " + "\r\n" +
-        "4. do-what-it-says." + "\r\n" +
+        "4. do-what-it-says" + "\r\n" +
         "Be sure to put the movie or song name in quotation marks if it's more than one word.");
 }
 
@@ -43,12 +43,13 @@ function twit() {
     var params = { screen_name: 'therealtharm1' };
     client.get('statuses/user_timeline', params, function (error, tweets, response) {
         if (!error) {
-            console.log(tweets);
-            for (var i = 0; i < 1; i++) {
+            // console.log(tweets);
+            var lastTweets = tweets.slice((tweets.length - 20), tweets.length);
+            for (var i = 0; i < lastTweets.length; i++) {
                 var twitterResults =
-                    "@" + tweets[i].user.screen_name + ": " +
-                    tweets[i].text + "\r\n" +
-                    tweets[i].created_at + "\r\n" +
+                    "@" + lastTweets[i].user.screen_name + ": " +
+                    lastTweets[i].text + "\r\n" +
+                    lastTweets[i].created_at + "\r\n" +
                     "------------------------------ " + i + " ------------------------------" + "\r\n";
                 console.log(twitterResults);
             }
@@ -68,7 +69,7 @@ function spot(songInput) {
     spotify.search({ type: 'track', query: songInput }, function (err, data) {
         if (!err) {
             var songInfo = data.tracks.items;
-            for (var i = 0; i < 5; i++) {
+            for (var i = 0; i < 1; i++) {
                 if (songInfo[i] != undefined) {
                     var spotifyResults =
                         "Artist: " + songInfo[i].artists[0].name + "\r\n" +
@@ -95,7 +96,7 @@ function movie() {
     request("https://www.omdbapi.com/?t=" + movieInput + "&y=&plot=short&apikey=trilogy", function (error, response, body) {
         if (!error && response.statusCode == 200) {
             // var movieObject = JSON.parse(body);
-            //console.log(movieObject); // Show the text in the terminal
+            //console.log(movieObject); 
             var movieResults =
                 "Title: " + JSON.parse(body).Title + "\r\n" +
                 "Year: " + JSON.parse(body).Year + "\r\n" +
@@ -105,7 +106,7 @@ function movie() {
                 "Language: " + JSON.parse(body).Language + "\r\n" +
                 "Plot: " + JSON.parse(body).Plot + "\r\n" +
                 "Actors: " + JSON.parse(body).Actors + "\r\n";
-                console.log(movieResults);
+            console.log(movieResults);
         } else {
             console.log("Error :" + error);
             return;
@@ -117,8 +118,11 @@ function movie() {
 function doit() {
     fs.readFile("random.txt", "utf8", function (error, data) {
         if (!error) {
-            doItData = data.split(",");
-            spot(doItData[1]);
+            // doItData = data.split(",");
+            // console.log(data);
+            process.argv[3] = data;
+            // console.log(process.argv[3]);
+            spot();
         } else {
             console.log("Error occurred" + error);
         }
